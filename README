@@ -1,0 +1,21 @@
+Pentru task 1:
+
+	generate_probabilities_system: genereaza o matrice, A, inferior triunghilara in care sunt stocate numerele naturale cuprinse intre 1 si (row+1)*row/2, astfel incat valorile din marginea labiritului se afla in marginile matricii si cele din interior in interior. Apoi genereaza o alta matrice , M, patratica cu lungimea unei linii egala cu (row+1)*row/2, plina cu zerouri. Pe diagonala se pun valorile 4, 5, 6, in functie de locul indicilor i,j (M(i,j)), in matricea A. Pentru M(i,j), cu i != j, se cauta in matricea A daca exista o legatura intre elementul de valoare i cu cel de valoare j; daca da, M(i,j) = -1, daca nu, M(i,j) ramane zero. se considera p = (row-1)*row/2. Vectorul b are valoarea zero pe pozitiile 1:p-1, si 1 in rest. Se returneaza M si b.
+
+	matrix_to_csr: pe baza datelor din A, construiese vectorii values, colind si rowptr pe baza instructiunilor date in cerinta.
+
+	jacobi_facorization: cum pentru metoda Jacobi, consideram A = D-(L+U), se obtin matricile M si D; D contine elementele de pe diagonala ale lui A, iar M este A, numai ca pe diagonala are 0. Conform formulelor invatate la curs, se obtine inv(D) si se foloseste impreuna cu M pentru determinarea lui G_J si c_J.
+
+	jacobi_sparse: foloseste ca solutie initiala vectorul nul x0; intr-un while se obtine x = G_J*x0+c_J; inmultirea se face cu functia csr_multiplication. x0 = x; cand norm(x-x0) < toleranta, atunci se iese din while.
+
+Pentru task 2:
+
+	clustering_pc: primeste lista de puncte sub forma de matrice, unde fiecare linie (i) reprezinta un punct. Calculeaza centroizii initiali, calculand suma elementelor de pe liniile i%NC in spatiul alocat fiecarui centroid in parte (liniile multiplu de NC sun adunate in centroidul NC), pe urma se impart numerele din centroizi la cate elemente au fost adunate in fiecare. Intr-un while se calculeaza distantele de la fiecare punct din lista si se vede de care centroid e mai aproape punctul respectiv (distanta euclidiana se calculeaza cu ajutorul functiei "euclid", ce returneaza indicele centroidului de care e cel mai apropiat punctul). Se recalculeaza centroizii si aceasta operatiune se repeta pana cand centroizii calculati la pasul curent sunt egali cu cei de la pasul precedent, moment in care se iese din while.
+
+	compute_cost_pc: parcurge lista de puncte si calculeaza cu ajutorul functiei "euclid2" distanta fata de cel mai apropiat centroid. Aceste distante sun adunate in variabila cost, ce va fi returnata la final de functie.
+
+Pentru task 3:
+
+	rgbHistogram: genereaza cu functia "imread" un set de 3 matrici corespunzatoare culorilor din care fiecare bit este alcatuit. Se generaza 3 vectori, xr, xg si xb cu ajutorul functiei "histc" ce reprezinta frecventele cu care culorile rosu, verde si albastru apar in fiecare bit al imaginilor. vectorul de intervale cu care este apelata functia "histc" este obtinut dupa regula "range = 0:256/count_bins:256;". La final, cei trei vectori sunt concatenati intr-unul singur, sol.
+
+	hsvHistogram: analog cu functia "rgbHistogram"; spre deosebire de ea insa, umbla cu trei matrici diferite, obtinute prin conversia spectrului de valori al fiecarui bit intr-un nou set, de forma (h,s,v), cu h,s,v descrisi in enuntul problemei. Pentru aceasta, se foloseste de functia ajutatoare "RGB2HSV" (cu litere mari pentru a se deosebi de "rgb2hsv"), ce aplica algoritmul din enunt fiecarui bit de forma (r,g,b), convertindu-l in (h,s,v).
